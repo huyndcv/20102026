@@ -429,6 +429,21 @@ button{touch-action:manipulation;-webkit-appearance:none;appearance:none}
   #aurora i,.sring,.bigdate,#start h2{animation:none!important}
   .scene{transform:none}
 }
+
+/* ===== Mục chọn tên ===== */
+#sc-pick{justify-content:flex-start}
+@media (orientation:portrait){#sc-pick{top:25%;bottom:21%;left:5%;right:5%}}
+.pick{pointer-events:auto;width:min(100%,440px);height:100%;display:flex;flex-direction:column;gap:.6em}
+.scene:not(.on) .pick{pointer-events:none}
+.pick input{flex:none;width:100%;padding:.6em 1em;border-radius:2em;border:1px solid rgba(255,122,184,.5);background:rgba(255,255,255,.08);outline:none;font-size:16px;user-select:text;-webkit-user-select:text;box-shadow:0 0 14px rgba(255,122,184,.25)}
+.pick input::placeholder{color:rgba(255,255,255,.55)}
+#plist{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:2px 4px 2px 0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(255,122,184,.5) transparent}
+#plist button{flex:none;text-align:left;padding:.62em 1em;border-radius:1em;border:1px solid rgba(255,200,225,.28);background:rgba(255,255,255,.07);font-size:clamp(14px,3.9vw,17px);cursor:pointer;transition:background .2s,transform .15s}
+#plist button:hover{background:rgba(255,122,184,.22)}
+#plist button:active{transform:scale(.97)}
+#plist button.teacher{border-color:rgba(255,217,138,.7);color:#ffd98a;box-shadow:0 0 14px rgba(255,217,138,.25)}
+#plist button small{opacity:.75;margin-left:.4em;font-size:.82em}
+.pnone{text-align:center;padding:1em;color:rgba(255,255,255,.65);font-size:14px}
 </style>
 </head>
 <body class="m-hero">
@@ -560,6 +575,8 @@ button{touch-action:manipulation;-webkit-appearance:none;appearance:none}
     <button data-a="yes">rồi nè ✿</button><button data-a="no">chưa nữa…</button>
   </div></section>
 
+  <section class="scene" id="sc-pick"><div class="pick"><input id="psearch" type="search" placeholder="gõ tên để tìm…" autocomplete="off" enterkeyhint="search"><div id="plist"></div></div></section>
+
   <section class="scene" id="sc-final"><div class="final">
     <div class="f-sub">chúc mừng ngày</div>
     <h1>Phụ nữ Việt Nam</h1>
@@ -616,12 +633,59 @@ function snap(ms){ const U=BEAT*2; let d=Math.max(1,Math.round(ms/U))*U;
   return d; }
 const YRS=new Date().getFullYear()-1930;
 const qp=new URLSearchParams(location.search);
-const TO=(qp.get('to')||'').trim().slice(0,40), FROM=(qp.get('from')||'').trim().slice(0,40);
+let TO=(qp.get('to')||'').trim().slice(0,40); const FROM=(qp.get('from')||'').trim().slice(0,40);
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+
+/* ================= CHỌN TÊN ================= */
+const TEACHER='Trần Thu Trang';
+const NAMES='Đặng Lê Phương Anh|Hoàng Thị Minh Anh|Lò Thị Lan Anh|Nguyễn Thị Ngọc Anh|Nguyễn Trần Vân Anh|Phùng Vân Anh|Vương Thị Lan Anh|Nguyễn Ngọc Ánh|Phạm Ngọc Bích|Trần Thị Bảo Châm|Ngô Thị Kim Chi|Vũ Thị Linh Chi|Ngô Hạnh Dung|Nguyễn Thị Thùy Dương|Đinh Châu Giang|Phạm Văn Giang|Hoàng Ngọc Hà|Cao Thu Hằng|Nguyễn Thị Hằng|Đoàn Minh Hiền|Nguyễn Thị Hoa|Nguyễn Thị Huế|Nguyễn Thị Huyền|Nguyễn Lan Hương|Vũ Thị Quỳnh Hương|Nguyễn Thị Lan|Bùi Gia Linh|Lê Thị Phương Linh|Ngô Phương Linh|Nguyễn Thị Khánh Linh|Phạm Thùy Linh|Vũ Nhật Hoàng Linh|Lương Thị Ly|Đinh Thị Mến|Trịnh Phương Minh|Đào Thị Thúy My|Cao Thanh Ngân|Nguyễn Hoàng Ngân|Lê Bảo Ngọc|Phạm Khánh Ngọc|Nguyễn Hương Nhi|Nguyễn Gia Như|Tô Thị Oanh|Đỗ Ánh Phương|Phan Hoàng Minh Phương|Lê Thị Phương|Nông Thị Ngọc Sơn|Đỗ Thị Tuệ Tâm|Phùng Thị Hoài Thanh|Nguyễn Đan Thảo|Phạm Thanh Thảo|Nguyễn Thị Thắm|Vũ Thị Minh Thu|Phạm Thị Phương Thúy|Đinh Anh Thư|Nguyễn Anh Thư|Nguyễn Thị Minh Thư|Lê Bảo Thy|Lê Thu Trang|Nguyễn Quỳnh Trang|Nguyễn Thị Thu Trang|Vũ Thị Kiều Trang|Bùi Hoàng Phương Uyên|Đỗ Thị Thùy Vân|Đào Thị Như Yến'.split('|');
+let PICK=null;
+const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').toLowerCase().trim();
+function mkPick(raw){
+  const nm=raw.replace(/^cô\s+/i,'').trim(), t=norm(nm)===norm(TEACHER), w=nm.split(/\s+/);
+  const g=nm;
+  return {full:nm,short:g,t};
+}
+const callName=()=>PICK?(PICK.t?'cô '+PICK.full:PICK.full):'';
+const hash=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;};
+const POOL=[
+ n=>'cái tên <em>'+n+'</em> nghe là thấy hiền, thấy thương liền',
+ n=>'có <em>'+n+'</em> ở đó, lớp mình bỗng ấm áp hơn một chút',
+ n=>'<em>'+n+'</em> có kiểu cười làm người bên cạnh thấy nhẹ lòng',
+ n=>'nhiều lúc <em>'+n+'</em> cũng mệt, mà vẫn cố gắng để không ai phải lo',
+ n=>'<em>'+n+'</em> là kiểu bạn mà thiếu đi thì lớp mình vắng hẳn',
+ n=>'<em>'+n+'</em> còn nhiều điều tuyệt vời mà chính mình cũng chưa nhận ra hết',
+ n=>'mong <em>'+n+'</em> luôn nhớ rằng mình xứng đáng được yêu thương',
+ n=>'<em>'+n+'</em> cứ là chính mình thôi — vậy là đủ đẹp rồi'
+];
+function aboutLine(i){
+  if(!PICK) return '';
+  if(PICK.t) return ['em xin nói đôi lời về <em>cô Trần Thu Trang</em>…','cô là người dạy lớp em con chữ, và dạy cả cách làm người','cảm ơn cô đã kiên nhẫn, kể cả những lúc lớp em ồn ào'][i];
+  const n=esc(PICK.short), h=hash(PICK.full), a=h%POOL.length, b=(a+1+((h>>>4)%(POOL.length-1)))%POOL.length;
+  return ['nào, giờ tớ kể một chút về <em>'+esc(PICK.full)+'</em> nhé…',POOL[a](n),POOL[b](n)][i];
+}
+const plist=$('#plist'), psearch=$('#psearch'), L6=$('#l6 text'), FMSG=$('.f-msg');
+const L6o=L6.textContent, FMo=FMSG.textContent;
+function applyPick(){ const tr=x=>PICK&&PICK.t?x.replace(/cậu/g,'cô'):x; L6.textContent=tr(L6o); FMSG.textContent=tr(FMo); }
+function renderList(q){
+  q=norm(q||''); plist.textContent=''; let n=0;
+  [{n:TEACHER,t:1}].concat(NAMES.map(x=>({n:x}))).forEach(it=>{
+    if(q&&!norm(it.n+(it.t?' co giao':'')).includes(q)) return;
+    const b=document.createElement('button'); b.type='button'; b.dataset.n=it.n; b.textContent=it.n;
+    if(it.t){ b.className='teacher'; const sm=document.createElement('small'); sm.textContent='· cô giáo ✿'; b.append(sm); }
+    plist.append(b); n++;
+  });
+  if(!n){ const d=document.createElement('div'); d.className='pnone'; d.textContent='không thấy tên này, thử gõ lại nhé'; plist.append(d); }
+}
+psearch.addEventListener('input',()=>renderList(psearch.value));
+if(TO){ PICK=mkPick(TO); TO=PICK.t?'cô '+PICK.full:PICK.full; applyPick(); }
+renderList('');
 
 /* ================= KỊCH BẢN ================= */
 const S=[
- {say:TO?'này <em>'+esc(TO)+'</em> ơi!':'này cậu ơi!', bars:1.1, mood:'wave', mode:'hero', bg:0, fx:{meteor:1}},
+ {scene:'pick', mode:'side', say:'đầu tiên, cậu cho tớ biết cậu là ai nhé? chạm vào tên của cậu nha', bars:1.5, mood:'wave', bg:2, wait:true, on(){ psearch.value=''; renderList(''); plist.scrollTop=0; }},
+ {scene:'none', say:()=>PICK?(PICK.t?'em chào <em>cô Trần Thu Trang</em> ạ!':'này <em>'+esc(PICK.short)+'</em> ơi!'):'này cậu ơi!', bars:1.1, mood:'wave', mode:'hero', bg:0, fx:{meteor:1}},
  {say:'tớ là <em>Nụ</em> — nàng tiên nhỏ của vườn hoa', bars:1.7, mood:'talk'},
  {say:'hôm nay tớ được giao một nhiệm vụ đặc biệt lắm đó…', bars:1.7, mood:'shy'},
  {say:'vì hôm nay là…', bars:1, mood:'talk'},
@@ -641,6 +705,9 @@ const S=[
  {say:'', bars:1.4, reveal:['c4']},
  {say:'mà hiếm khi có ai nói lời cảm ơn', bars:1.8, mood:'shy'},
  {scene:'none', mode:'hero', say:'nên hôm nay, đến lượt <em>cậu</em> được quan tâm', bars:2, mood:'happy', fx:{petals:1.1}},
+ {say:()=>aboutLine(0), bars:1.7, mood:'shy', fx:{petals:1.2,hearts:.4}},
+ {say:()=>aboutLine(1), bars:2.3, mood:'talk'},
+ {say:()=>aboutLine(2), bars:2.3, mood:'happy', fx:{petals:1,hearts:.6}},
 
  {say:'tớ xin gửi cậu bốn lời chúc nhé', bars:1.5, mood:'wave', bg:2},
  {scene:'health', mode:'side', say:'chúc cậu thật nhiều <em>sức khỏe</em> — để còn đi hết những nơi cậu muốn đến', bars:2.4, mood:'talk', bg:1, fx:{meteor:.6}},
@@ -657,6 +724,7 @@ const S=[
  {scene:'question', mode:'hero', say:'cho tớ hỏi một câu thôi nhé…<br>hôm nay cậu đã <em>khen bản thân</em> chưa?', bars:2, mood:'wink', bg:2, fx:{petals:.3,meteor:1}, wait:true, reveal:['q1']},
  {scene:'final', mode:'side', say:'', mood:'happy', bg:3, fx:{fire:1,petals:.9,meadow:1.5}, wait:true, final:true}
 ];
+if(PICK) S.shift();
 
 /* ================= TRẠNG THÁI ================= */
 const nu=$('#nu'), bgls=$$('.bgl'), line=$('#line'), bubble=$('#bubble'), hint=$('#hint'), prog=$('#prog');
@@ -667,6 +735,7 @@ function mood(m){ nu.className=(m||''); }
 function talk(on){ clearTimeout(talkT); nu.classList.toggle('talk',on); if(on) talkT=setTimeout(()=>nu.classList.remove('talk'),1500); }
 
 function say(html){
+  if(html&&PICK&&PICK.t) html=html.replace(/cậu/g,'cô').replace(/tớ/g,'em');
   bubble.classList.toggle('empty',!html);
   line.innerHTML=html||'';
   let k=0;
@@ -709,12 +778,12 @@ function go(n){
   if(st.fx){ fxS=Object.assign({petals:0,hearts:0,lantern:0,fire:0,meteor:1,meadow:.6},st.fx); parts.forEach(p=>{ if((p.t==='lantern'&&!fxS.lantern)||(p.t==='heart'&&!fxS.hearts)) p.kill=true; }); }
   showScene(st.scene);
   if(st.mood!==undefined){ const talking=nu.classList.contains('talk'); mood(st.mood); if(talking) nu.classList.add('talk'); }
-  say(st.say);
+  say(typeof st.say==='function'?st.say():st.say);
   talk(!!st.say);
   if(st.reveal) st.reveal.forEach((id,j)=>setTimeout(()=>{const e=document.getElementById(id); if(e) e.classList.add('on');}, (st.scene?650:0)+j*260));
   if(st.on) st.on();
   prog.style.width=((n+1)/S.length*100)+'%';
-  hint.classList.toggle('on', n>=1 && n<=4);
+  { const pre=S[0].scene==='pick'?1:0; hint.classList.toggle('on', n>=1+pre && n<=4+pre); }
   waiting=!!st.wait;
   if(!st.wait && !qp.has('hold')) timer=setTimeout(()=>go(n+1),snap((st.bars||1.5)*BAR));
   if(st.final) setupFinal();
@@ -729,6 +798,15 @@ document.addEventListener('click',e=>{
   next();
 });
 document.addEventListener('keydown',e=>{ if(started&&(e.key===' '||e.key==='ArrowRight')&&e.target.tagName!=='INPUT'){e.preventDefault();next();} });
+
+plist.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b||!waiting||!S[idx]||S[idx].scene!=='pick') return;
+  PICK=mkPick(b.dataset.n); TO=PICK.t?'cô '+PICK.full:PICK.full; applyPick();
+  waiting=false; psearch.blur(); showScene('none');
+  mood('happy'); talk(true);
+  say(PICK.t?'ra là <em>cô Trần Thu Trang</em> ạ! em bắt đầu nhé…':'ra là <em>'+esc(PICK.short)+'</em>! để tớ bắt đầu nhé…');
+  clearTimeout(timer); timer=setTimeout(()=>go(idx+1), snap(1.7*BAR));
+});
 
 $('#q1').addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b||!waiting) return;
