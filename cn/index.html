@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070b18">
+<title>Midnight Letter | Minh Trâm</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #070b18;
+  --blue: #b9d0ff;
+  --silver: #edf2ff;
+  --muted: #a0adc7;
+  --line: #b9d0ff28;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--silver);
+  background:
+    radial-gradient(ellipse at 50% 0%, #273c67 0%, transparent 42%),
+    radial-gradient(ellipse at 10% 60%, #152342 0%, transparent 40%),
+    #070b18;
+  font-family: Manrope, sans-serif;
+  overflow-x: hidden;
+}
+
+#sky {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px #a8caff75;
+  animation: twinkle var(--speed) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+  0%,100% { opacity: .15; transform: scale(.65); }
+  50% { opacity: 1; transform: scale(1.35); }
+}
+
+.dust {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #c7dcff;
+  box-shadow: 0 0 12px 3px #a5caff65;
+  animation: drift var(--speed) ease-in-out infinite alternate;
+  animation-delay: var(--delay);
+}
+
+@keyframes drift {
+  from { transform: translate(0,0); opacity: .15; }
+  to { transform: translate(20px,-35px); opacity: .9; }
+}
+
+.meteor {
+  position: absolute;
+  width: 130px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #b8d5ff, #fff);
+  box-shadow: 0 0 10px #b8d5ff;
+  opacity: 0;
+  transform: rotate(-35deg);
+  animation: meteor 7s linear infinite;
+}
+
+@keyframes meteor {
+  0% { opacity: 0; translate: 0 0; }
+  3% { opacity: 1; }
+  13% { opacity: 0; translate: 65vw 50vh; }
+  100% { opacity: 0; translate: 65vw 50vh; }
+}
+
+main {
+  width: min(820px, 100%);
+  margin: auto;
+  padding: 25px 23px 55px;
+  position: relative;
+  z-index: 1;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+nav strong { color: var(--blue); font-weight: 400; }
+
+.hero {
+  min-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 65px 0 80px;
+}
+
+.moon {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #fff, #dbe8ff 42%, #8ca8db);
+  box-shadow: 0 0 45px #a9c8ff45, 0 0 120px #a9c8ff20;
+  animation: float 5s ease-in-out infinite, glow 4s ease-in-out infinite;
+  position: relative;
+}
+
+.moon::after {
+  content: "";
+  position: absolute;
+  width: 94px;
+  height: 94px;
+  left: 28px;
+  top: -12px;
+  border-radius: 50%;
+  background: #182543;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes glow {
+  0%,100% { box-shadow: 0 0 35px #a9c8ff30, 0 0 90px #a9c8ff10; }
+  50% { box-shadow: 0 0 65px #a9c8ff60, 0 0 130px #a9c8ff25; }
+}
+
+.eyebrow, .label {
+  color: var(--blue);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.eyebrow { margin-top: 38px; }
+
+h1, h2, h3, .signature {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: clamp(52px, 10vw, 88px);
+  line-height: 1;
+  margin: 20px 0;
+  animation: appear 1.2s ease both;
+}
+
+h1 em { color: var(--blue); }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 2;
+  max-width: 420px;
+}
+
+.btn {
+  display: inline-block;
+  border: 1px solid #b9d0ff55;
+  background: #b9d0ff0d;
+  border-radius: 3px;
+  padding: 13px 21px;
+  color: var(--silver);
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btn:hover {
+  background: #b9d0ff20;
+  transform: translateY(-2px);
+}
+
+.btn-light {
+  color: #0b1223;
+  background: var(--silver);
+  border-color: var(--silver);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.scroll {
+  position: absolute;
+  bottom: 18px;
+  color: #8393b1;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.scroll span {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.section { padding: 35px 0; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 25px 0;
+  color: #8796b3;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  height: 1px;
+  background: var(--line);
+  flex: 1;
+}
+
+.card {
+  padding: clamp(23px, 5vw, 40px);
+  margin: 20px 0;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: linear-gradient(135deg, #ffffff0d, #ffffff03);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 70px #00000016;
+}
+
+h2 {
+  font-size: clamp(31px, 6vw, 44px);
+  margin: 13px 0 20px;
+}
+
+.letter {
+  color: #d5deef;
+  font-size: 13px;
+  line-height: 2.2;
+  white-space: pre-line;
+}
+
+.signature {
+  font-style: italic;
+  color: var(--blue);
+  font-size: 25px;
+  margin-top: 22px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 13px;
+  margin-top: 25px;
+}
+
+.photo {
+  aspect-ratio: 4 / 5;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(140deg, #25385e, #0e162a);
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s;
+}
+
+.photo:hover img { transform: scale(1.06); }
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: #c0d3f8;
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.placeholder b {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.photo.has-image .placeholder { display: none; }
+
+.quote {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 25px;
+  line-height: 1.65;
+  color: #dce7ff;
+}
+
+.music-icon {
+  font-size: 40px;
+  color: var(--blue);
+  margin: 20px 0;
+}
+
+.secret {
+  display: none;
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: #a8c6f50a;
+  color: #dbe5f8;
+  line-height: 2.1;
+  animation: appear .8s ease;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+footer {
+  text-align: center;
+  padding: 45px 0 10px;
+  color: #8592ab;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  line-height: 2.5;
+}
+
+footer span { color: var(--blue); font-size: 20px; }
+
+@media (max-width: 480px) {
+  main { padding-left: 16px; padding-right: 16px; }
+  .hero { min-height: 78vh; }
+  .moon { width: 82px; height: 82px; }
+  .moon::after { width: 75px; height: 75px; left: 23px; }
+  .photo { aspect-ratio: 3 / 4; }
+  .card { padding: 23px 19px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div id="sky"></div>
+
+<main>
+  <nav>
+    <span><strong>✦</strong> MIDNIGHT LETTER</span>
+    <span>20 · 10 · 2026</span>
+  </nav>
+
+  <header class="hero">
+    <div class="moon"></div>
+    <div class="eyebrow">A little universe for you</div>
+    <h1>Dear <em>Minh Trâm</em></h1>
+    <p class="subtitle">
+      Giữa hàng triệu ánh sáng trên bầu trời,<br>
+      mong cậu luôn tìm thấy ánh sáng của riêng mình.
+    </p>
+    <div class="actions">
+      <a class="btn btn-light" href="#letter">MỞ LÁ THƯ ✧</a>
+      <a class="btn" href="#memories">NHỮNG KHOẢNH KHẮC</a>
+    </div>
+    <div class="scroll">SCROLL TO DISCOVER <span>↓</span></div>
+  </header>
+
+  <div class="divider">01 — A LETTER UNDER THE MOON</div>
+
+  <section class="section card" id="letter">
+    <div class="label">To: Hồ Ngọc Minh Trâm</div>
+    <h2>Gửi cậu,<br><em style="color:#b9d0ff">một điều dịu dàng.</em></h2>
+
+    <div class="letter">Chúc cậu một ngày 20/10 thật đẹp.
+
+Mong những ngày phía trước sẽ có nhiều niềm vui hơn những điều khiến cậu bận lòng, nhiều tiếng cười hơn những phút giây mệt mỏi, và nhiều người chân thành hơn những cuộc gặp gỡ thoáng qua.
+
+Cậu không cần phải trở thành một ai khác để xứng đáng với những điều tốt đẹp. Cứ sống theo nhịp điệu của riêng mình, chậm một chút cũng được, miễn là cậu vẫn đang đi về phía những điều mình yêu quý.
+
+Nếu một ngày bầu trời không được trong xanh, mong cậu vẫn nhớ rằng phía trên những đám mây, ánh trăng chưa bao giờ biến mất.
+
+Và món quà nhỏ này, đơn giản chỉ là một lời chúc được đặt vào một góc trời dành riêng cho cậu.</div>
+
+    <div class="signature">With a little starlight, ♡</div>
+  </section>
+
+  <div class="divider" id="memories">02 — LITTLE MOMENTS</div>
+
+  <section class="section">
+    <div class="label">A gallery of memories</div>
+    <h2>Những khung hình nhỏ</h2>
+    <p class="subtitle">Mỗi bức ảnh lưu lại một khoảnh khắc. Hãy thay những ô này bằng ảnh của Minh Trâm.</p>
+
+    <div class="gallery">
+      <div class="photo">
+        <img src="assets/tram-1.jpg" alt="Kỷ niệm 1" onload="this.parentElement.classList.add('has-image')" onerror="this.remove()">
+        <div class="placeholder"><b>01</b> A little memory</div>
+      </div>
+      <div class="photo">
+        <img src="assets/tram-2.jpg" alt="Kỷ niệm 2" onload="this.parentElement.classList.add('has-image')" onerror="this.remove()">
+        <div class="placeholder"><b>02</b> A little moment</div>
+      </div>
+      <div class="photo">
+        <img src="assets/tram-3.jpg" alt="Kỷ niệm 3" onload="this.parentElement.classList.add('has-image')" onerror="this.remove()">
+        <div class="placeholder"><b>03</b> A little smile</div>
+      </div>
+      <div class="photo">
+        <img src="assets/tram-4.jpg" alt="Kỷ niệm 4" onload="this.parentElement.classList.add('has-image')" onerror="this.remove()">
+        <div class="placeholder"><b>04</b> A little star</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">03 — A SONG FOR YOU</div>
+
+  <section class="section card" style="text-align:center">
+    <div class="label">A melody for this moment</div>
+    <div class="music-icon">♫</div>
+    <h2>Em Có Chờ</h2>
+    <p class="subtitle" style="margin:0 auto 24px">
+      Một giai điệu cho những cảm xúc đôi khi khó gọi thành tên.
+    </p>
+    <a class="btn btn-light"
+       href="https://www.youtube.com/results?search_query=MIN+Em+Co+Cho+official"
+       target="_blank" rel="noopener noreferrer">
+      NGHE BÀI HÁT ↗
+    </a>
+    <p class="subtitle" style="font-size:10px;margin:18px auto 0">
+      Nhấn để mở YouTube và nghe bài hát.
+    </p>
+  </section>
+
+  <div class="divider">04 — JUST FOR YOU</div>
+
+  <section class="section card" style="text-align:center">
+    <div class="label">A little secret</div>
+    <h2>Còn một điều nữa...</h2>
+    <p class="quote">“Có những điều nhỏ bé,<br>nhưng vẫn đáng để nhớ thật lâu.”</p>
+    <button class="btn" id="reveal">MỞ LỜI NHẮN ♡</button>
+
+    <div class="secret" id="secret">
+      Mong cậu luôn đủ bình yên để yêu những ngày bình thường, đủ dũng cảm để theo đuổi điều mình mong muốn, và đủ may mắn để cuộc đời dịu dàng với cậu.
+
+      <br><br>
+      Chúc Minh Trâm 20/10 thật vui, thật ấm áp và có thật nhiều lý do để mỉm cười. ✨
+
+      <br><br>
+      <span style="color:#b9d0ff">You deserve beautiful things.</span>
+    </div>
+  </section>
+
+  <footer>
+    MADE WITH CARE · FOR MINH TRÂM<br>
+    <span>☾ ✦ ☽</span><br>
+    20 OCTOBER 2026
+  </footer>
+</main>
+
+<script>
+const sky = document.getElementById("sky");
+
+// Những ngôi sao lấp lánh
+for (let i = 0; i < 110; i++) {
+  const star = document.createElement("span");
+  star.className = "star";
+  const size = Math.random() * 2.2 + 0.7;
+  star.style.width = size + "px";
+  star.style.height = size + "px";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.setProperty("--speed", (1.5 + Math.random() * 4) + "s");
+  star.style.setProperty("--delay", (Math.random() * 5) + "s");
+  sky.appendChild(star);
+}
+
+// Bụi sáng trôi nhẹ
+for (let i = 0; i < 30; i++) {
+  const dust = document.createElement("span");
+  dust.className = "dust";
+  dust.style.left = Math.random() * 100 + "%";
+  dust.style.top = Math.random() * 100 + "%";
+  dust.style.setProperty("--speed", (3 + Math.random() * 6) + "s");
+  dust.style.setProperty("--delay", (Math.random() * 5) + "s");
+  sky.appendChild(dust);
+}
+
+// Sao băng thỉnh thoảng xuất hiện
+for (let i = 0; i < 3; i++) {
+  const meteor = document.createElement("span");
+  meteor.className = "meteor";
+  meteor.style.left = (Math.random() * 45) + "%";
+  meteor.style.top = (Math.random() * 25) + "%";
+  meteor.style.animationDelay = (Math.random() * 7) + "s";
+  meteor.style.animationDuration = (6 + Math.random() * 4) + "s";
+  sky.appendChild(meteor);
+}
+
+// Lời nhắn bí mật
+const revealButton = document.getElementById("reveal");
+const secret = document.getElementById("secret");
+
+revealButton.addEventListener("click", () => {
+  const opening = getComputedStyle(secret).display === "none";
+  secret.style.display = opening ? "block" : "none";
+  revealButton.textContent = opening ? "KHÉP LỜI NHẮN ✧" : "MỞ LỜI NHẮN ♡";
+
+  if (opening) {
+    secret.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});
+</script>
+</body>
+</html>
