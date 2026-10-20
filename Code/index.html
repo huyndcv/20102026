@@ -2,185 +2,368 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
-<title>Nụ & lời chúc 20/10</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Minh Trâm ♡</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #fff;
+    background: linear-gradient(160deg, #080d24, #17274b, #493c68);
+    overflow-x: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    color: #fff;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .2; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1.2); }
+}
+
+.moon {
+    position: fixed;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #fff4d6;
+    box-shadow: 0 0 45px #ffe8bd88;
+    top: 55px;
+    right: 35px;
+    z-index: 0;
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    width: min(92%, 680px);
+    margin: auto;
+    padding: 65px 0 45px;
+    text-align: center;
+}
+
+.tag {
+    color: #f5d6ff;
+    letter-spacing: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+h1 {
+    margin: 22px 0 12px;
+    font-size: clamp(36px, 9vw, 62px);
+    font-weight: normal;
+    line-height: 1.15;
+    text-shadow: 0 0 25px #e3c6ff55;
+}
+
+.subtitle {
+    color: #d6d8f4;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.divider {
+    width: 70px;
+    height: 1px;
+    margin: 28px auto;
+    background: #f5d6ff;
+}
+
+.card {
+    padding: 28px 22px;
+    margin: 25px 0;
+    border: 1px solid #ffffff28;
+    border-radius: 22px;
+    background: #ffffff0d;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 45px #00000020;
+}
+
+.envelope {
+    font-size: 65px;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform .4s;
+}
+
+.envelope:hover {
+    transform: translateY(-7px) rotate(-5deg);
+}
+
+button {
+    color: #fff;
+    background: linear-gradient(120deg, #8d80cf, #bd91c7);
+    border: 1px solid #ffffff40;
+    border-radius: 30px;
+    padding: 13px 23px;
+    margin-top: 18px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+.letter {
+    display: none;
+    text-align: left;
+    color: #f1eafa;
+    font-size: 16px;
+    line-height: 1.95;
+    margin-top: 25px;
+    white-space: pre-line;
+    animation: appear .8s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: normal;
+    margin-bottom: 18px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.photo {
+    overflow: hidden;
+    border-radius: 15px;
+    background: #ffffff12;
+    border: 1px solid #ffffff28;
+}
+
+.photo img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+}
+
+.caption {
+    padding: 10px 5px;
+    color: #e9def9;
+    font-size: 12px;
+}
+
+.quote {
+    color: #f4dcff;
+    font-size: 20px;
+    line-height: 1.8;
+    font-style: italic;
+}
+
+footer {
+    padding: 25px 0 10px;
+    font-size: 12px;
+    color: #c7c7e8;
+    line-height: 2;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    color: #f5bfe4;
+    pointer-events: none;
+    animation: floatUp 5s linear forwards;
+    z-index: 3;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh) rotate(30deg);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 380px) {
+    main { padding-top: 50px; }
+    .card { padding: 22px 15px; }
+}
+</style>
 </head>
-<body class="m-hero">
 
-<div id="bgs"><div class="bgl on"></div><div class="bgl"></div><div class="bgl"></div><div class="bgl"></div></div>
-<canvas id="fx"></canvas>
-<div id="prog"></div>
-<button id="mute" class="ui" aria-label="Bật/tắt nhạc">
-  <svg viewBox="0 0 24 24"><g class="on"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></g><g class="off"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></g></svg>
-</button>
+<body>
+<div class="stars" id="stars"></div>
+<div class="moon"></div>
 
-<div id="stage">
+<main>
+    <p class="tag">A little page for someone special</p>
 
-  <!-- ===== các cảnh ===== -->
-  <section class="scene" id="sc-date"><div class="bigdate"><span>20</span><i>/</i><span>10</span></div><div class="date-sub">ngày phụ nữ việt nam</div></section>
+    <h1>Hồ Ngọc<br>Minh Trâm ♡</h1>
 
-  <section class="scene" id="sc-history"><div class="hist">
-    <div class="h-year rv" id="h1">1930</div>
-    <div class="h-line rv" id="h2">20 tháng 10 · Hội Phụ nữ phản đế Việt Nam ra đời, tiền thân của Hội Liên hiệp Phụ nữ Việt Nam</div>
-    <div class="h-track rv" id="h3"><span>1930</span><span class="bar"><i></i></span><span>nay</span></div>
-    <div class="h-yrs rv" id="h4"><b id="yrs">0</b> năm nói lời cảm ơn</div>
-  </div></section>
+    <p class="subtitle">
+        Gửi cậu, cô gái có nụ cười<br>
+        khiến những ngày bình thường trở nên đặc biệt.
+    </p>
 
-  <section class="scene" id="sc-heroes"><div class="heroes">
-    <svg viewBox="0 -10 360 310" preserveAspectRatio="xMidYMid meet">
-      <g fill="none">
-        <line class="edge" id="e12" x1="60" y1="75" x2="180" y2="100"/>
-        <line class="edge" id="e23" x1="180" y1="100" x2="290" y2="72"/>
-        <line class="edge" id="e24" x1="180" y1="100" x2="110" y2="178"/>
-        <line class="edge" id="e35" x1="290" y1="72" x2="236" y2="178"/>
-        <line class="edge" id="e45" x1="110" y1="178" x2="236" y2="178"/>
-        <line class="edge" id="e46" x1="110" y1="178" x2="180" y2="252"/>
-        <line class="edge" id="e56" x1="236" y1="178" x2="180" y2="252"/>
-      </g>
-      <g class="node" id="n1"><circle cx="60" cy="75" r="9" fill="rgba(255,190,225,.28)"/><circle cx="60" cy="75" r="4.5" fill="#fff"/></g>
-      <g class="lbl" id="l1"><text class="hname" x="60" y="48" text-anchor="middle">Hai Bà Trưng</text><text class="hyear" x="60" y="62" text-anchor="middle">năm 40</text></g>
-      <g class="node" id="n2"><circle cx="180" cy="100" r="9" fill="rgba(255,190,225,.28)"/><circle cx="180" cy="100" r="4.5" fill="#fff"/></g>
-      <g class="lbl" id="l2"><text class="hname" x="180" y="73" text-anchor="middle">Bà Triệu</text><text class="hyear" x="180" y="87" text-anchor="middle">năm 248</text></g>
-      <g class="node" id="n3"><circle cx="290" cy="72" r="9" fill="rgba(255,190,225,.28)"/><circle cx="290" cy="72" r="4.5" fill="#fff"/></g>
-      <g class="lbl" id="l3"><text class="hname" x="290" y="26" text-anchor="middle">Nguyễn Thị</text><text class="hname" x="290" y="41" text-anchor="middle">Minh Khai</text><text class="hyear" x="290" y="55" text-anchor="middle">1910–1941</text></g>
-      <g class="node" id="n4"><circle cx="110" cy="178" r="9" fill="rgba(255,190,225,.28)"/><circle cx="110" cy="178" r="4.5" fill="#fff"/></g>
-      <g class="lbl" id="l4"><text class="hname" x="97" y="176" text-anchor="end">Võ Thị Sáu</text><text class="hyear" x="97" y="190" text-anchor="end">1933–1952</text></g>
-      <g class="node" id="n5"><circle cx="236" cy="178" r="9" fill="rgba(255,190,225,.28)"/><circle cx="236" cy="178" r="4.5" fill="#fff"/></g>
-      <g class="lbl" id="l5"><text class="hname" x="249" y="176">Nguyễn Thị Định</text><text class="hyear" x="249" y="190">1920–1992</text></g>
-      <g class="node" id="n6"><circle cx="180" cy="252" r="16" fill="rgba(255,217,138,.22)"/><circle cx="180" cy="252" r="7" fill="#ffd98a"/><path d="M180 232v40M160 252h40" stroke="#ffd98a" stroke-width="1.2" opacity=".7"/></g>
-      <g class="lbl" id="l6"><text class="hyou" x="180" y="286" text-anchor="middle">và cậu nữa</text></g>
-    </svg>
-  </div></section>
+    <div class="divider"></div>
 
-  <section class="scene" id="sc-unseen"><div class="cards">
-    <div class="card rv" id="c1"><span class="ic">☀</span><span>dậy sớm hơn cả nhà để lo bữa sáng</span></div>
-    <div class="card rv" id="c2"><span class="ic">✿</span><span>nhớ mọi sinh nhật, mọi lời dặn, mọi chuyện nhỏ của người thân</span></div>
-    <div class="card rv" id="c3"><span class="ic">☾</span><span>nói “mình ổn” dù đôi khi đã rất mệt</span></div>
-    <div class="card rv" id="c4"><span class="ic">✦</span><span>vừa lo cho người khác, vừa cố giữ ước mơ của riêng mình</span></div>
-  </div></section>
+    <section class="card">
+        <div class="envelope" onclick="openLetter()">💌</div>
+        <h2>Một lá thư dành riêng cho cậu</h2>
+        <p class="subtitle">Có vài điều tớ muốn nói, nếu cậu sẵn lòng lắng nghe.</p>
 
-  <section class="scene" id="sc-health"><div class="health">
-    <svg class="ecg" viewBox="0 0 420 100" preserveAspectRatio="none"><path pathLength="100" d="M0 52 H120 L138 44 156 52 H176 L190 18 206 88 222 6 240 52 H270 L286 45 304 52 H420"/></svg>
-    <svg class="heart" viewBox="0 0 100 92"><defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb3d1"/><stop offset="1" stop-color="#ff4f8b"/></linearGradient></defs><path d="M50 88C36 76 4 56 4 30 4 10 28 2 40 14c5 5 8 9 10 14 2-5 5-9 10-14C72 2 96 10 96 30c0 26-32 46-46 58z" fill="url(#hg)" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/><path d="M20 24c3-8 12-11 18-7" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></svg>
-    <span class="plus" style="left:8%;top:62%;font-size:22px">+</span>
-    <span class="plus" style="left:86%;top:30%;font-size:28px;animation-delay:-1.2s">+</span>
-    <span class="plus" style="left:70%;top:76%;font-size:18px;animation-delay:-2.2s">+</span>
-    <span class="plus" style="left:22%;top:20%;font-size:20px;animation-delay:-.6s">+</span>
-  </div></section>
+        <button onclick="openLetter()">Mở lá thư ♡</button>
 
-  <section class="scene" id="sc-peace"><div class="pond">
-    <svg viewBox="0 0 300 210">
-      <defs><radialGradient id="moonG"><stop offset="0" stop-color="#fffdf2"/><stop offset="1" stop-color="#ffe9b5"/></radialGradient>
-      <linearGradient id="lotG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff8fbd"/><stop offset="1" stop-color="#fff0f7"/></linearGradient></defs>
-      <circle cx="245" cy="34" r="30" fill="rgba(255,235,190,.16)"/><circle cx="245" cy="34" r="16" fill="url(#moonG)"/>
-      <ellipse cx="150" cy="158" rx="140" ry="40" fill="rgba(120,180,230,.10)" stroke="rgba(190,230,255,.25)"/>
-      <ellipse class="ring" cx="150" cy="158" rx="110" ry="28" style="animation-delay:0s"/>
-      <ellipse class="ring" cx="150" cy="158" rx="110" ry="28" style="animation-delay:1.6s"/>
-      <ellipse class="ring" cx="150" cy="158" rx="110" ry="28" style="animation-delay:3.2s"/>
-      <ellipse cx="68" cy="170" rx="30" ry="8" fill="#3fae93" opacity=".75"/><ellipse cx="238" cy="150" rx="26" ry="7" fill="#3fae93" opacity=".7"/>
-      <g class="lotus">
-        <path d="M150 160 C108 150 100 112 150 90 C200 112 192 150 150 160Z" fill="url(#lotG)" opacity=".5" transform="rotate(-38 150 160)"/>
-        <path d="M150 160 C108 150 100 112 150 90 C200 112 192 150 150 160Z" fill="url(#lotG)" opacity=".5" transform="rotate(38 150 160)"/>
-        <path d="M150 160 C112 148 108 108 150 84 C192 108 188 148 150 160Z" fill="url(#lotG)" opacity=".8" transform="rotate(-18 150 160)"/>
-        <path d="M150 160 C112 148 108 108 150 84 C192 108 188 148 150 160Z" fill="url(#lotG)" opacity=".8" transform="rotate(18 150 160)"/>
-        <path d="M150 162 C118 150 120 104 150 78 C180 104 182 150 150 162Z" fill="url(#lotG)" stroke="#fff" stroke-opacity=".6"/>
-        <circle cx="150" cy="152" r="4" fill="#ffe28a"/>
-      </g>
-    </svg>
-  </div></section>
+        <div class="letter" id="letter">Gửi Minh Trâm,
 
-  <section class="scene" id="sc-free"><div class="sky">
-    <svg class="bfly" viewBox="0 0 80 50"><g><ellipse class="bw r" cx="57" cy="19" rx="17" ry="14" fill="#c9b3ff"/><ellipse class="bw l" cx="23" cy="19" rx="17" ry="14" fill="#ffb5da"/><ellipse class="bw r" cx="52" cy="35" rx="11" ry="9" fill="#b49cff"/><ellipse class="bw l" cx="28" cy="35" rx="11" ry="9" fill="#ff9ccb"/><rect x="39" y="10" width="2.2" height="30" rx="1.1" fill="#fff"/></g></svg>
-    <svg class="bfly" viewBox="0 0 80 50"><g><ellipse class="bw r" cx="57" cy="19" rx="17" ry="14" fill="#ffe0a6"/><ellipse class="bw l" cx="23" cy="19" rx="17" ry="14" fill="#ffc2dd"/><ellipse class="bw r" cx="52" cy="35" rx="11" ry="9" fill="#ffd085"/><ellipse class="bw l" cx="28" cy="35" rx="11" ry="9" fill="#ffaad0"/><rect x="39" y="10" width="2.2" height="30" rx="1.1" fill="#fff"/></g></svg>
-    <svg class="bfly" viewBox="0 0 80 50"><g><ellipse class="bw r" cx="57" cy="19" rx="17" ry="14" fill="#a8e6ff"/><ellipse class="bw l" cx="23" cy="19" rx="17" ry="14" fill="#d9c4ff"/><ellipse class="bw r" cx="52" cy="35" rx="11" ry="9" fill="#8fd6f5"/><ellipse class="bw l" cx="28" cy="35" rx="11" ry="9" fill="#c8afff"/><rect x="39" y="10" width="2.2" height="30" rx="1.1" fill="#fff"/></g></svg>
-  </div></section>
+Có những người chẳng cần làm điều gì quá lớn lao,
+chỉ cần xuất hiện thôi cũng đủ khiến một ngày
+trở nên dịu dàng hơn.
 
-  <section class="scene" id="sc-love"><div class="lovering">
-    <div class="orbit"><i style="transform:rotate(0deg) translateY(-400%)">♥</i><i style="transform:rotate(45deg) translateY(-400%)">✿</i><i style="transform:rotate(90deg) translateY(-400%)">♥</i><i style="transform:rotate(135deg) translateY(-400%)">✿</i><i style="transform:rotate(180deg) translateY(-400%)">♥</i><i style="transform:rotate(225deg) translateY(-400%)">✿</i><i style="transform:rotate(270deg) translateY(-400%)">♥</i><i style="transform:rotate(315deg) translateY(-400%)">✿</i></div>
-    <svg class="bigheart" viewBox="0 0 100 92"><defs><linearGradient id="hg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc2dd"/><stop offset="1" stop-color="#ff5f9a"/></linearGradient></defs><path d="M50 88C36 76 4 56 4 30 4 10 28 2 40 14c5 5 8 9 10 14 2-5 5-9 10-14C72 2 96 10 96 30c0 26-32 46-46 58z" fill="url(#hg2)" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/><path d="M20 24c3-8 12-11 18-7" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="3" stroke-linecap="round"/></svg>
-  </div></section>
+Tớ không biết phải dùng bao nhiêu câu chữ
+mới nói hết những điều muốn gửi đến cậu.
+Vậy nên hôm nay, tớ chỉ muốn chúc cậu luôn vui,
+luôn được yêu thương và luôn có đủ can đảm
+để theo đuổi những điều mình mong muốn.
 
-  <section class="scene" id="sc-gift"><div class="bouquet"><div class="bq-sway">
-    <svg viewBox="0 0 300 340">
-      <defs>
-        <linearGradient id="wrapG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd0e6"/><stop offset="1" stop-color="#ff8fbd"/></linearGradient>
-        <radialGradient id="pet1" cx=".5" cy=".8"><stop offset="0" stop-color="#ff7fb0"/><stop offset="1" stop-color="#ffe3ef"/></radialGradient>
-        <radialGradient id="pet2" cx=".5" cy=".8"><stop offset="0" stop-color="#b79bff"/><stop offset="1" stop-color="#f1eaff"/></radialGradient>
-        <radialGradient id="pet3" cx=".5" cy=".8"><stop offset="0" stop-color="#ffc66b"/><stop offset="1" stop-color="#fff4d6"/></radialGradient>
-        <g id="flw"><g><ellipse cx="0" cy="-17" rx="8" ry="17"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(45)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(90)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(135)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(180)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(225)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(270)"/><ellipse cx="0" cy="-17" rx="8" ry="17" transform="rotate(315)"/></g></g>
-      </defs>
-      <g fill="none" stroke="#4fc79b" stroke-width="3" stroke-linecap="round">
-        <path class="stem" style="--d:.1s" d="M150 300 C150 240 120 190 84 120"/>
-        <path class="stem" style="--d:.25s" d="M150 300 C150 230 140 170 150 84"/>
-        <path class="stem" style="--d:.4s" d="M150 300 C150 240 180 190 216 118"/>
-        <path class="stem" style="--d:.55s" d="M150 300 C145 250 100 220 54 178"/>
-        <path class="stem" style="--d:.7s" d="M150 300 C155 250 200 220 246 176"/>
-      </g>
-      <g stroke="#2e9f78" stroke-width="1.5" fill="#6fe0b4" opacity=".9"><path d="M118 230 q-26 -6 -30 -28 q24 2 30 28z"/><path d="M182 228 q26 -6 30 -28 q-24 2 -30 28z"/><path d="M140 200 q-14 -20 -4 -38 q14 16 4 38z"/></g>
-      <g transform="translate(54 168) scale(.8)" fill="url(#pet2)" stroke="#fff" stroke-opacity=".7" stroke-width="1"><use class="fl" style="--d:.9s" href="#flw"/></g>
-      <g transform="translate(246 166) scale(.8)" fill="url(#pet3)" stroke="#fff" stroke-opacity=".7" stroke-width="1"><use class="fl" style="--d:1.1s" href="#flw"/></g>
-      <g transform="translate(84 110)" fill="url(#pet1)" stroke="#fff" stroke-opacity=".7" stroke-width="1"><use class="fl" style="--d:.7s" href="#flw"/></g><g transform="translate(216 108)" fill="url(#pet1)" stroke="#fff" stroke-opacity=".7" stroke-width="1"><use class="fl" style="--d:.85s" href="#flw"/></g>
-      <g transform="translate(150 74) scale(1.25)" fill="url(#pet1)" stroke="#fff" stroke-opacity=".8" stroke-width="1"><use class="fl" style="--d:.5s" href="#flw"/></g>
-      <g transform="translate(150 74)"><circle class="fl" style="--d:.6s" r="9" fill="#ffe28a"/></g>
-      <path d="M72 224 L228 224 L166 324 Q150 336 134 324Z" fill="url(#wrapG)" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/>
-      <path d="M72 224 Q150 250 228 224" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="2"/>
-      <path d="M110 236 L142 326 M190 236 L158 326" stroke="#fff" stroke-opacity=".35" stroke-width="1.5" fill="none"/>
-      <path d="M150 258 q-30 -26 -40 -4 q10 20 40 4 q30 16 40 -4 q-10 -22 -40 4z" fill="#fff" opacity=".95"/><circle cx="150" cy="258" r="6" fill="#ffc2dd"/>
-      <path d="M146 262 q-10 26 -22 40 M154 262 q10 26 22 40" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".9"/>
-      </svg>
-  </div></div></section>
+Mong những ngày phía trước của cậu
+có thật nhiều bình yên, những giấc mơ đẹp
+và những người chân thành ở bên.
 
-  <section class="scene" id="sc-question"><div class="qbtns rv" id="q1">
-    <button data-a="yes">rồi nè ✿</button><button data-a="no">chưa nữa…</button>
-  </div></section>
+Chúc Minh Trâm một ngày 20/10 thật vui vẻ. ♡
 
-  <section class="scene" id="sc-final"><div class="final">
-    <div class="f-sub">chúc mừng ngày</div>
-    <h1>Phụ nữ Việt Nam</h1>
-    <div class="f-date">20 · 10</div>
-    <p class="f-to" id="f-to">gửi người phụ nữ tuyệt vời</p>
-    <p class="f-msg">mong mỗi ngày của cậu đều có hoa, có nắng, có tiếng cười — và có người nhớ đến cậu thật nhiều.</p>
-    <div class="f-act">
-      <button id="b-link" class="alt" hidden>chép link</button>
-      <button id="b-replay" class="alt">xem lại</button>
-    </div>
-  </div></section>
+                         — Một người dành điều đặc biệt cho cậu.</div>
+    </section>
 
-  <!-- ===== Nụ — nhân vật gốc ===== -->
-  <div id="nu" class="wave" aria-hidden="true">
-    <div class="nu-glow"></div>
-    <svg class="nu-svg" viewBox="0 0 240 300"><defs><radialGradient id="eyeG" cx=".5" cy=".35" r=".75"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#ffd3e8"/><stop offset="1" stop-color="#ff7ab8"/></radialGradient></defs>
-<g class="head"><g class="head-tilt">
-<path class="nbud" d="M120 44C62 92 54 152 68 204c10 34 94 34 104 0 14-52 6-112-52-160z" fill="rgba(255,122,184,.07)" stroke="#ff7ab8" stroke-width="3" stroke-linejoin="round"/>
-<path d="M120 44C119 30 114 20 106 12M120 44c2-14 10-22 20-26" fill="none" stroke="#7dffd0" stroke-width="3" stroke-linecap="round"/>
-<g class="arm-l"><path d="M70 214C50 218 38 206 36 190c18-2 32 6 34 24z" fill="rgba(125,255,208,.2)" stroke="#7dffd0" stroke-width="2.5" stroke-linejoin="round"/></g>
-<g class="arm-r"><path d="M170 214c20 4 32-8 34-24-18-2-32 6-34 24z" fill="rgba(125,255,208,.2)" stroke="#7dffd0" stroke-width="2.5" stroke-linejoin="round"/></g>
-<ellipse class="blush" cx="78" cy="186" rx="11" ry="5.5" fill="#ff7ab8"/><ellipse class="blush" cx="162" cy="186" rx="11" ry="5.5" fill="#ff7ab8"/>
-<g class="eye eyeL" style="transform-origin:96px 152px"><rect x="82" y="128" width="28" height="48" rx="14" fill="url(#eyeG)"/><ellipse cx="91" cy="142" rx="4" ry="6" fill="#fff"/></g>
-<g class="eye eyeR" style="transform-origin:144px 152px"><rect x="130" y="128" width="28" height="48" rx="14" fill="url(#eyeG)"/><ellipse cx="139" cy="142" rx="4" ry="6" fill="#fff"/></g>
-<path class="arcL" d="M80 162Q96 138 112 162" stroke="#ffd3e8" stroke-width="6" fill="none" stroke-linecap="round"/><path class="arcR" d="M128 162Q144 138 160 162" stroke="#ffd3e8" stroke-width="6" fill="none" stroke-linecap="round"/>
-<path class="mouth-c" d="M110 196Q120 206 130 196" stroke="#ffd3e8" stroke-width="3.5" fill="none" stroke-linecap="round"/><ellipse class="mouth-o" cx="120" cy="199" rx="7" ry="7" fill="#ffd3e8"/>
-<g class="wink-star" fill="#ffd98a"><path transform="translate(10 52)" d="M170 100l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z"/></g>
-</g></g></svg>
-  </div>
+    <section class="card">
+        <h2>Những khoảnh khắc của cậu ✨</h2>
+        <p class="subtitle" style="margin-bottom:20px">
+            Mỗi bức ảnh là một mảnh ký ức nhỏ.
+        </p>
 
-  <div id="bubble" class="empty"><div id="line"></div></div>
-  <div id="hint">chạm để qua</div>
-</div>
+        <div class="gallery">
+            <div class="photo">
+                <img src="assets/tram-1.jpg" alt="Minh Trâm 1">
+                <div class="caption">a little sunshine ☀</div>
+            </div>
+            <div class="photo">
+                <img src="assets/tram-2.jpg" alt="Minh Trâm 2">
+                <div class="caption">soft moments ♡</div>
+            </div>
+            <div class="photo">
+                <img src="assets/tram-3.jpg" alt="Minh Trâm 3">
+                <div class="caption">just being you ✨</div>
+            </div>
+            <div class="photo">
+                <img src="assets/tram-4.jpg" alt="Minh Trâm 4">
+                <div class="caption">a lovely memory 🌷</div>
+            </div>
+            <div class="photo">
+                <img src="assets/tram-5.jpg" alt="Minh Trâm 5">
+                <div class="caption">my favorite moments 💗</div>
+            </div>
+            <div class="photo">
+                <img src="assets/tram-6.jpg" alt="Minh Trâm 6">
+                <div class="caption">always be happy 🌙</div>
+            </div>
+        </div>
 
-<div id="start">
-  <svg class="bud" viewBox="0 0 120 150"><defs><linearGradient id="bg1" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff8fbd"/><stop offset="1" stop-color="#fff0f7"/></linearGradient></defs>
-    <path d="M60 140 C60 110 58 96 60 80" stroke="#6fe0b4" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M60 118 q-26 -4 -30 -26 q26 2 30 26z" fill="#6fe0b4" opacity=".9"/>
-    <path d="M60 86 C34 78 28 44 60 14 C92 44 86 78 60 86Z" fill="url(#bg1)" stroke="#fff" stroke-opacity=".8"/><path d="M60 86 C42 80 40 52 60 30 C80 52 78 80 60 86Z" fill="#ffc2dd" opacity=".7"/></svg>
-  <h2>Có một món quà nhỏ<br>cho ngày 20/10</h2>
-  <p>chạm để mở quà</p>
-  <small>bật âm thanh để nghe trọn vẹn nhé</small>
-</div>
+        <p class="subtitle" style="margin-top:18px">
+            Nhớ cười thật nhiều nha, Trâm.
+        </p>
+    </section>
 
-<audio id="bgm" loop preload="auto" playsinline src="music.mp3"></audio>
+    <section class="card">
+        <h2>Một giai điệu dành cho cậu 🎧</h2>
 
-<script src="script.js"></script>
+        <p class="quote">
+            “Có những điều không cần nói thành lời,
+            chỉ cần một giai điệu là đủ.”
+        </p>
+
+        <button onclick="window.open(
+        'https://www.youtube.com/results?search_query=MIN+Em+Co+Cho',
+        '_blank')">
+            Nghe Em Có Chờ — MIN ♫
+        </button>
+    </section>
+
+    <section class="card">
+        <h2>Điều ước bí mật 🌠</h2>
+        <p class="subtitle">
+            Có một điều ước đang chờ cậu khám phá.
+        </p>
+
+        <button onclick="wish()">Chạm vào ngôi sao ✨</button>
+
+        <p id="wish" class="quote"
+           style="display:none;margin-top:22px">
+            Mong rằng dù cuộc sống có bận rộn đến đâu,
+            Minh Trâm vẫn luôn tìm được lý do để mỉm cười. ♡
+        </p>
+    </section>
+
+    <footer>
+        Made with ♡, just for Minh Trâm<br>
+        20 · 10 · 2026<br>
+        <span style="color:#f4d7ff">You deserve all the beautiful things.</span>
+    </footer>
+</main>
+
+<script>
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 85; i++) {
+    const star = document.createElement("span");
+    star.className = "star";
+    star.textContent = Math.random() > .5 ? "✦" : "·";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.fontSize = (Math.random() * 12 + 5) + "px";
+    star.style.animationDelay = Math.random() * 3 + "s";
+    stars.appendChild(star);
+}
+
+function openLetter() {
+    const letter = document.getElementById("letter");
+    letter.style.display = "block";
+    letter.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function wish() {
+    document.getElementById("wish").style.display = "block";
+    for (let i = 0; i < 18; i++) {
+        setTimeout(createHeart, i * 100);
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = Math.random() > .5 ? "♡" : "✦";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 14) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+</script>
 </body>
 </html>
