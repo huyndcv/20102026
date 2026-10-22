@@ -55,6 +55,8 @@ body{margin:0;height:100%;color:#fff;font-family:Quicksand,system-ui,sans-serif;
 .ft{white-space:nowrap;font-family:'Dancing Script','Quicksand',cursive;font-weight:700;color:#ff8fcb;text-shadow:0 0 4px #ff4fa8,0 0 16px #ff2f94aa}
 .fp{object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 11%,#000 89%,transparent),linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 11%,#000 89%,transparent),linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);mask-composite:intersect}
 .fh{filter:drop-shadow(0 0 10px #ff2f5acc)}
+.tc{display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.15;white-space:normal;text-wrap:balance}
+.fp{overflow:hidden}
 #vg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 50%,transparent 55%,#0a0412aa 100%)}
 #fhint{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 30px);width:100%;text-align:center;font-size:15px;color:#ffd0e2;pointer-events:none;transition:opacity 1s;animation:bl 2s infinite}
 #skip{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 14px);border:1px solid #ffb3d0aa;background:#2a0f3acc;color:#ffd7e6;border-radius:99px;padding:8px 16px;font:600 14px Quicksand,sans-serif;opacity:0;pointer-events:none;transition:opacity 1s}
@@ -105,65 +107,59 @@ const rph=RO.map(([x,y,d],i)=>{const e=document.createElement('div');e.className
 const FT=["Chúc chị em luôn xinh đẹp","yêu chị em","mãi yêu chị em","20/10","Chúc chị em luôn vui vẻ và hạnh phúc","Mong mọi điều dịu dàng sẽ đến với chị em","chúc chị em thật nhiều may mắn","Chúc chị em luôn yêu đời","Chúc mừng ngày Phụ nữ Việt Nam","12C1 mãi bên nhau","20/10","luôn rạng rỡ nhé","cảm ơn vì đã có nhau"];
 const fw=$('#flow'),rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.random()*a.length|0],PP=420,cl=(v,a,b)=>Math.max(a,Math.min(b,v));
 let I=[],wd,W0=0,H0=0,U=1,ry=0,rx=0,vyaw=0,drag=false,lx=0,ly=0,run=false,last=0,skipRes=null,warp=0,wt=0,boost=1;
-/* bức tường 3D uốn quanh người xem: chữ neon + ảnh + tim ở nhiều lớp độ sâu, tất cả thả rơi xuống chậm rãi */
+/* vòng tường 360° bao quanh người xem: ảnh to, chữ thưa, kéo để quay nhìn xung quanh */
+let PPx=420;
 function build(){
- fw.innerHTML='<div id=\"cam\"><div id=\"world\"></div></div><div id=\"vg\"></div><div id=\"fhint\">Kéo nhẹ để nghiêng góc nhìn ✋</div><button id=\"skip\">Tiếp tục ›</button>';
- wd=$('#world');I=[];W0=innerWidth;H0=innerHeight;U=cl(Math.min(W0,H0*.7)/390,.8,1.5);warp=0;wt=0;boost=1;
- const SH=UNI.slice().sort(()=>Math.random()-.5);let pi=0,ti=0;
- const FS=()=>FT[(ti++)%FT.length];
- /* mỗi lớp: bán kính R, tốc độ rơi, các mục cần đặt */
- const LAYERS=[{R:560,v:H0*.075,txt:110,sf:[12,22],ph:11,pw:.17,ht:10}];
- for(const L of LAYERS){
-  const R=L.R,k=(PP+R)/PP,vh=(H0/2)*k,lim=vh*1.3,sMax=R*.85,placed=[];
-  const fits=(s,y,w,h,g)=>{for(const p of placed)if(Math.abs(p.s-s)<(p.w+w)/2*1.18+g+24&&Math.min(Math.abs(p.y-y),2*lim-Math.abs(p.y-y))<(p.h+h)/2*1.35+g+8)return false;return true};
-  const put=(e,w,h,cls,op,tilt,tries,gap)=>{
-   for(let t=0;t<tries;t++){
-    const s=rnd(-sMax,sMax),y=rnd(-lim,lim);
-    if(!fits(s,y,w,h,gap))continue;
-    placed.push({s,y,w,h});const th=s/R*57.2958;
-    e.className='i3 '+cls;wd.appendChild(e);
-    I.push({e,r:R,th,y,spd:L.v,op,lim,vh,fix:`rotateY(${th}deg) translateZ(${-R}px) rotateZ(${tilt}deg) translate(-50%,-50%)`});return true}
-   return false};
-  /* ảnh: rải ngẫu nhiên khắp nơi như video mẫu */
-  for(let i=0;i<L.ph&&pi<SH.length;i++){
-   const e=document.createElement('img');e.src=SH[pi++];const w=L.pw*W0*k*rnd(.95,1.05),h=w*rnd(1.2,1.3);
-   e.style.width=w+'px';e.style.height=h+'px';
-   if(!put(e,w,h,'fp',1,0,400,30))pi--}
-  /* tim */
-  for(let i=0;i<L.ht;i++){const e=document.createElement('div');e.textContent='❤️';const fs=rnd(14,22)*U*k;e.style.fontSize=fs+'px';
-   e.style.lineHeight='1';put(e,fs*1.1,fs*1.1,'fh',.95,0,80,22)}
-  /* chữ: xếp thành từng hàng ngay ngắn phủ kín mọi góc màn hình, hàng nào cũng cùng cỡ chữ; né ảnh và tim */
-  let deck=[];const nextT=()=>{if(!deck.length)deck=FT.slice().sort(()=>Math.random()-.5);return deck.pop()};
-  const measure=(txt,fs)=>{const e=document.createElement('div');e.textContent=txt;e.style.fontSize=fs+'px';e.style.lineHeight='1.15';
-   e.className='i3 ft';e.style.visibility='hidden';wd.appendChild(e);const w=e.offsetWidth,h=e.offsetHeight;wd.removeChild(e);e.style.visibility='';return{e,w,h}};
-  const fitsT=(s,y,w,h)=>{for(const p of placed){const dy=Math.abs(p.y-y),d2=Math.min(dy,2*lim-dy);if(Math.abs(p.s-s)<(p.w+w)/2+12&&d2<(p.h+h)/2+8)return false}return true};
-  let y=-lim+rnd(0,20);
-  let fs=rnd(L.sf[0],L.sf[1])*U*k;
-  while(y<lim-20){
-   let rowH=0,cur=-sMax+rnd(0,80);
-   while(cur<sMax-60){
-    const cands=[measure(nextT(),fs),measure(nextT(),fs),measure(nextT(),fs)];
-    rowH=Math.max(rowH,cands[0].h);
-    let ok=false;
-    for(const m of cands){const s=cur+m.w/2;if(s+m.w/2>sMax+40)continue;
-     if(fitsT(s,y,m.w,m.h)){const th=s/R*57.2958;m.e.className='i3 ft';wd.appendChild(m.e);
-      I.push({e:m.e,r:R,th,y,spd:L.v,op:rnd(.85,1),lim,vh,fix:`rotateY(${th}deg) translateZ(${-R}px) translate(-50%,-50%)`});
-      cur+=m.w+rnd(24,50);ok=true;break}}
-    if(!ok)cur+=70}
-   const nf=rnd(L.sf[0],L.sf[1])*U*k;y+=((rowH||fs*1.2)+nf*1.2)/2*1.8;fs=nf}
+ fw.innerHTML='<div id="cam"><div id="world"></div></div><div id="vg"></div><div id="fhint">Kéo để nhìn xung quanh 360° ✋</div><button id="skip">Tiếp tục ›</button>';
+ wd=$('#world');I=[];W0=innerWidth;H0=innerHeight;warp=0;wt=0;boost=1;
+ const F=cl(Math.min(W0,H0*.75)/390,1,2.4);PPx=420*F;const R=PPx;
+ $('#cam').style.perspective=PPx+'px';
+ const k=(PPx+R)/PPx,vh=(H0/2)*k,lim=vh*1.3;
+ /* số cột quanh vòng: chẵn, sao cho mỗi lúc thấy khoảng 1,7 cột -> ảnh to */
+ const visDeg=4*Math.atan(W0/2/PPx)*57.2958;
+ const nc=cl(2*Math.round(360/(visDeg/1.7)/2),6,10),cw=2*Math.PI*R/nc;
+ /* số hàng: bội số của 4 để vòng lặp khép kín */
+ const m=Math.max(1,Math.round(2*lim/(cw*.62*4))),N=4*m,u=2*lim/N;
+ const tw=cw*.9,th_=u*.9;
+ const fit=()=>{const e=document.createElement('div');e.className='i3 ft tc';e.style.cssText='visibility:hidden;width:'+tw+'px';wd.appendChild(e);
+  let fs=Math.min(tw*.14,th_*.4);
+  for(let n=0;n<40;n++){let ok=true;for(const t of FT){e.textContent=t;e.style.fontSize=fs+'px';if(e.offsetHeight>th_||e.scrollWidth>tw+1){ok=false;break}}if(ok)break;fs*=.94}
+  wd.removeChild(e);return fs};
+ const fs=fit();
+ const SH=UNI.slice().sort(()=>Math.random()-.5);let pi=0;
+ let deck=[];const nextT=()=>{if(!deck.length)deck=FT.slice().sort(()=>Math.random()-.5);return deck.pop()};
+ const CYC=[['p',0,2],['t',2,1],['h',3,1]];
+ const MK='linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent)';
+ for(let c=0;c<nc;c++){
+  const th=(c-nc/2)*360/nc,sh=(c%2)*2,spd=H0*.075*rnd(.92,1.08);
+  for(let j=0;j<m;j++)for(const[kind0,a,span]of CYC){
+   const kind=(kind0==='h'&&(j+c)%2)?'p':kind0; /* xen kẽ: ô tim đổi thành ảnh nhỏ ngang để có thêm ảnh */
+   const e=document.createElement('div');let tilt=0;
+   if(kind==='p'){const im=document.createElement('img');im.src=SH[pi++%SH.length];
+    im.style.cssText='width:100%;height:100%;object-fit:cover;display:block';e.appendChild(im);
+    e.className='i3 fp';e.style.width=cw*.9+'px';e.style.height=span*u*.94+'px';
+    e.style.webkitMaskImage=MK;e.style.maskImage=MK;e.style.webkitMaskComposite='source-in';e.style.maskComposite='intersect';
+    tilt=rnd(-2,2)}
+   else if(kind==='t'){e.textContent=nextT();e.className='i3 ft tc';e.style.width=tw+'px';e.style.height=th_+'px';e.style.fontSize=fs+'px'}
+   else{e.textContent='❤️';e.className='i3 fh tc';e.style.width=tw+'px';e.style.height=th_+'px';e.style.fontSize=Math.min(u*.4,cw*.28)+'px'}
+   wd.appendChild(e);
+   let y=-lim+(j*4+a+sh+span/2)*u;y=((y+lim)%(2*lim)+2*lim)%(2*lim)-lim;
+   I.push({e,th,y,spd,op:kind==='t'?rnd(.9,1):1,lim,vh,fix:`rotateY(${th}deg) translateZ(${-R}px) rotateZ(${tilt}deg) translate(-50%,-50%)`})}
  }
- fw.onpointerdown=e=>{if(e.target.id==='skip')return;drag=true;lx=e.clientX;ly=e.clientY;const h=$('#fhint');if(h)h.style.opacity=0;try{fw.setPointerCapture(e.pointerId)}catch(_){}};
- fw.onpointermove=e=>{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;ry=cl(ry+dx*.15,-30,30);rx=cl(rx+dy*.1,-15,15)};
+ fw.onpointerdown=e=>{if(e.target.id==='skip')return;drag=true;lx=e.clientX;ly=e.clientY;vyaw=0;const h=$('#fhint');if(h)h.style.opacity=0;try{fw.setPointerCapture(e.pointerId)}catch(_){}};
+ fw.onpointermove=e=>{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;ry+=dx*.3;vyaw=cl(dx*.3*60,-500,500);rx=cl(rx+dy*.1,-15,15)};
  fw.onpointerup=fw.onpointercancel=()=>{drag=false};
  $('#skip').onclick=()=>{if(skipRes)skipRes()};
 }
 function tick(t){requestAnimationFrame(tick);const dt=Math.min((t-last)/1000,.05);last=t;if(!run)return;
- let yaw;
- if(warp){wt+=dt;boost=1+14*wt*wt;ry+=(30+260*wt)*dt;yaw=ry}
- else{if(!drag){const d=1-Math.min(1,dt*2.5);ry*=d;rx*=d}yaw=ry+4*Math.sin(t/4000)}
+ if(warp){wt+=dt;boost=1+14*wt*wt;ry+=(30+260*wt)*dt}
+ else if(!drag){vyaw+=(6-vyaw)*Math.min(1,dt*.8);ry+=vyaw*dt;rx*=1-Math.min(1,dt*2.5)}
+ const yaw=ry;
  wd.style.transform=`rotateX(${rx}deg) rotateY(${yaw}deg)`;
  for(const o of I){o.y+=o.spd*boost*dt;if(o.y>o.lim)o.y-=2*o.lim;
-  const f=cl((o.lim-Math.abs(o.y))/(o.vh*.3),0,1)*cl((64-Math.abs(o.th))/14,0,1);
+  const eff=Math.abs(((o.th+yaw)%360+540)%360-180);
+  const f=cl((o.lim-Math.abs(o.y))/(o.vh*.3),0,1)*cl((100-eff)/25,0,1);
+  o.e.style.visibility=f>0?'visible':'hidden';
   o.e.style.opacity=f*o.op;o.e.style.transform=`translateY(${o.y}px) ${o.fix}`}}
 requestAnimationFrame(tick);
 async function river(){
